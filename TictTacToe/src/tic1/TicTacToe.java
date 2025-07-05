@@ -35,11 +35,31 @@ public class TicTacToe extends JFrame {
 		area.setBackground(Color.lightGray);
 		area.setPreferredSize(new Dimension(3,6));
 		JMenu option = new JMenu("Option");
-		menu.add(option);
+       JMenuItem restartItem = new JMenuItem("Restart");
+         restartItem.addActionListener(new ActionListener() {
+        public void actionPerformed(ActionEvent e) {
+        clearBoard();
+        area.setText("");
+        replayButton.setEnabled(false);  // Optional: disable the replay button
+           }
+       });
+			 option.add(restartItem);
+        menu.add(option);
+        this.setJMenuBar(menu);
 
 		
 		JPanel panel1 = new JPanel(new GridLayout(1,1));
 		panel1.setSize(100,50);
+			replayButton = new JButton("Replay");
+        replayButton.setEnabled(false); // Disabled until game ends
+        replayButton.setFocusable(false);
+        replayButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+        clearBoard();
+        area.setText("");
+        replayButton.setEnabled(false); // Disable again after use
+        }
+       });
 		panel1.add(area);
 		JPanel panel2 = new JPanel(new GridLayout(3,3,2,2));
 		panel2.setPreferredSize(new Dimension(140,200));
@@ -66,52 +86,20 @@ public class TicTacToe extends JFrame {
 						
 					}
 					int s = checkwin();
-					if (s == 1) {
-					    area.setText("X wins");
-					    currentPlayer=' ';
-					   // Duration.ofMillis(8000);
-					 //  clearBoard();
-					  //area.setText(" ");
-					    
-					   // new TicTacToe();
-					    int str1 = JOptionPane.showConfirmDialog(null,"play Again");
-					    if(str1==JOptionPane.YES_OPTION) {
-					    	clearBoard();
-					    	i=0;
-					    	area.setText(" ");}else if(str1== JOptionPane.NO_OPTION) {
-					    		System.exit(0);
-					    	}
-					    
-					    
-					} else if (s == 2) {
-					    area.setText("O wins");
-					    currentPlayer=' ';
-					   
-					    int str1 = JOptionPane.showConfirmDialog(null,"play Again");
-					    if(str1==JOptionPane.YES_OPTION) {
-					    	clearBoard();
-					    	i=0;
-					    	area.setText(" ");}else if(str1== JOptionPane.NO_OPTION) {
-					    		System.exit(0);
-					    	}
-					    
-					    
-					   
-					} else if (p == 9) {
-					    area.setText("Draw!");
-					    currentPlayer=' ';
-					  
-					    int str1 = JOptionPane.showConfirmDialog(null,"play Again");
-					   
-					    if(str1==JOptionPane.YES_OPTION) {
-					    	clearBoard();
-					    	i=0;
-					    	area.setText(" ");}else if(str1== JOptionPane.NO_OPTION) {
-					    		System.exit(0);
-					    	}
-					        
+					 if (s == 1) {
+             area.setText("X wins");
+             currentPlayer = ' ';
+             replayButton.setEnabled(true);
+          } else if (s == 2) {
+             area.setText("O wins");
+             currentPlayer = ' ';
+            replayButton.setEnabled(true);
+           } else if (p == 9) {
+             area.setText("Draw!");
+             currentPlayer = ' ';
+            replayButton.setEnabled(true);
+            }  
 					}
-
 				}
 				
 			});
@@ -154,23 +142,12 @@ public class TicTacToe extends JFrame {
 		public void clearBoard() {
 			 for( int i=0;i<blist.length;i++)	{
 			    	blist[i].setText(" ");}
+			p = 0 // reset move count
+				currentPlayer ='X'; //reset player x
 		}
 		
-    /*  void restart() throws InterruptedException {
-    	  for(int k=0; k<=8;k++) {
-    		  //Thread.sleep(1000);
-    		  if(k==4) {
-    			  area.setText("Restarting..");
-    		  }
-    		  if(k==7) {
-    			  clearBoard();
-    		  }
-    		  if(k==8) {
-    			  area.setText(" ");
-    		  }
-    		  
-    	  }
-      }*/
+    
+  
   public static void main(String[] args) {
 	  		
 TicTacToe frame = new TicTacToe();

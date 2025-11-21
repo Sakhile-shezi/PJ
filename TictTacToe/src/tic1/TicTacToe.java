@@ -1,160 +1,179 @@
 package tic1;
 
-import javax.swing.JFrame;
-
-import java.awt.Dimension;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.time.Duration;
-import java.awt.*;
-
-import javax.swing.*;
 
 public class TicTacToe extends JFrame {
-		/**
-		 * 
-		 */
-		private static final long serialVersionUID = 1L;
-		//Attributes
-		JMenuBar menu = new JMenuBar();
-		
-		int i;
-		char currentPlayer ='X';
-		int p= 0;
-		static JButton[] blist;
-		JTextArea area;
-		static String[][] board = new String[3][3];
-		//constructor
-		public TicTacToe() {
-		this.setTitle("All");
-		this.setSize(400,400);
-		this.setResizable(false);
-		this.setLocationRelativeTo(null);
-		area = new JTextArea(3,6);
-		area.setFont((new Font("Helvetica", Font.BOLD,15)));  
-		area.setBackground(Color.lightGray);
-		area.setPreferredSize(new Dimension(3,6));
-		JMenu option = new JMenu("Option");
-       JMenuItem restartItem = new JMenuItem("Restart");
-         restartItem.addActionListener(new ActionListener() {
-        public void actionPerformed(ActionEvent e) {
-        clearBoard();
-        area.setText("");
-        replayButton.setEnabled(false);  // Optional: disable the replay button
-           }
-       });
-			 option.add(restartItem);
-        menu.add(option);
-        this.setJMenuBar(menu);
 
-		
-		JPanel panel1 = new JPanel(new GridLayout(1,1));
-		panel1.setSize(100,50);
-			replayButton = new JButton("Replay");
-        replayButton.setEnabled(false); // Disabled until game ends
-        replayButton.setFocusable(false);
-        replayButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-        clearBoard();
-        area.setText("");
-        replayButton.setEnabled(false); // Disable again after use
-        }
-       });
-		panel1.add(area);
-		JPanel panel2 = new JPanel(new GridLayout(3,3,2,2));
-		panel2.setPreferredSize(new Dimension(140,200));
-		//panel2.add(area);
-		blist = new JButton[9];
-		//blist.se
-		for( i=0;i<blist.length;i++)	{
-			blist[i]=new JButton(" ");
-			//design
-			blist[i].setBackground(Color.darkGray);
-			blist[i].setForeground(Color.WHITE);
-			blist[i].addActionListener(new ActionListener() {
-	       //ActionListener
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					// TODO Auto-generated method stub
-					JButton bclick = (JButton)e.getSource();
-					
-					bclick.setFont(new Font("Areal",Font.BOLD,110));
-					if(bclick.getText().equals(" ")) {
-						bclick.setText(currentPlayer+"");
-						p++;
-						currentPlayer = (currentPlayer=='X')?'O':'X';
-						
-					}
-					int s = checkwin();
-					 if (s == 1) {
-             area.setText("X wins");
-             currentPlayer = ' ';
-             replayButton.setEnabled(true);
-          } else if (s == 2) {
-             area.setText("O wins");
-             currentPlayer = ' ';
-            replayButton.setEnabled(true);
-           } else if (p == 9) {
-             area.setText("Draw!");
-             currentPlayer = ' ';
-            replayButton.setEnabled(true);
-            }  
-					}
-				}
-				
-			});
-			blist[i].setFocusable(false);
-			panel2.add(blist[i]);
-		}	
-		
-		setLayout(new BorderLayout());
-		
-		add(panel1,BorderLayout.NORTH);
-		add(panel2, BorderLayout.CENTER);
+    private static final long serialVersionUID = 1L;
 
-		}
-		//check win method
-		public static int checkwin() {
-		    // board = new String[3][3];
-		    for (int i = 0; i < 9; i++) {
-		        board[i / 3][i % 3] = blist[i].getText();
-		    }
+    private JButton[] blist;
+    private JButton replayButton;
 
-		    // Check rows, columns, and diagonals
-		    for (int i = 0; i < 3; i++) {
-		        // Rows
-		        if (board[i][0].equals("X") && board[i][1].equals("X") && board[i][2].equals("X")) return 1;
-		        if (board[i][0].equals("O") && board[i][1].equals("O") && board[i][2].equals("O")) return 2;
+    private JTextArea area;
+    private char currentPlayer = 'X';
+    private int moves = 0;
 
-		        // Columns
-		        if (board[0][i].equals("X") && board[1][i].equals("X") && board[2][i].equals("X")) return 1;
-		        if (board[0][i].equals("O") && board[1][i].equals("O") && board[2][i].equals("O")) return 2;
-		    }
-
-		    // Diagonals
-		    if (board[0][0].equals("X") && board[1][1].equals("X") && board[2][2].equals("X")) return 1;
-		    if (board[0][0].equals("O") && board[1][1].equals("O") && board[2][2].equals("O")) return 2;
-		    if (board[0][2].equals("X") && board[1][1].equals("X") && board[2][0].equals("X")) return 1;
-		    if (board[0][2].equals("O") && board[1][1].equals("O") && board[2][0].equals("O")) return 2;
-
-		    return 0; // No winner yet
-		}
-		public void clearBoard() {
-			 for( int i=0;i<blist.length;i++)	{
-			    	blist[i].setText(" ");}
-			p = 0 // reset move count
-				currentPlayer ='X'; //reset player x
-		}
-		
-    
   
-  public static void main(String[] args) {
-	  		
-TicTacToe frame = new TicTacToe();
-frame.setResizable(false);
-frame.setVisible(true);
+    public TicTacToe() {
 
- }
-	   
+        setTitle("Tic-Tac-Toe");
+        setSize(420, 450);
+        setResizable(false);
+        setLocationRelativeTo(null);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+       
+        JMenuBar menu = new JMenuBar();
+        JMenu option = new JMenu("Options");
+        JMenuItem restartItem = new JMenuItem("Restart");
+       
+       JMenuItem exitItem = new JMenuItem("Exit");
+      exitItem.addActionListener(e -> System.exit(0));
+
+
+        restartItem.addActionListener(e -> {
+            clearBoard();
+            area.setText("");
+            replayButton.setEnabled(false);
+        });
+
+        option.add(restartItem);
+        option.add(exitItem);
+        menu.add(option);
+        setJMenuBar(menu);
+
+       
+        JPanel topPanel = new JPanel();
+        area = new JTextArea(2, 20);
+        area.setEditable(false);
+        area.setFont(new Font("Segoe UI", Font.BOLD, 16));
+        area.setBackground(Color.LIGHT_GRAY);
+        area.setText("Player X turn");
+        topPanel.add(area);
+
+      
+        replayButton = new JButton("Replay");
+        replayButton.setEnabled(false);
+        replayButton.addActionListener(e -> {
+            clearBoard();
+            area.setText("Player X turn");
+            replayButton.setEnabled(false);
+        });
+        topPanel.add(replayButton);
+
+        
+        JPanel gridPanel = new JPanel(new GridLayout(3, 3, 4, 4));
+        gridPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+
+        blist = new JButton[9];
+
+        for (int i = 0; i < 9; i++) {
+
+            blist[i] = new JButton(" ");
+            blist[i].setFont(new Font("Segoe UI", Font.BOLD, 60));
+            blist[i].setBackground(new Color(45, 45, 45));
+            blist[i].setForeground(Color.WHITE);
+            blist[i].setFocusable(false);
+
+            blist[i].addActionListener(new ButtonListener());
+
+            gridPanel.add(blist[i]);
+        }
+
+        setLayout(new BorderLayout());
+        add(topPanel, BorderLayout.NORTH);
+        add(gridPanel, BorderLayout.CENTER);
+    }
+
+
+    private class ButtonListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            JButton btn = (JButton) e.getSource();
+
+            if (!btn.getText().equals(" ")) return; // ignore used cell
+
+            btn.setText(String.valueOf(currentPlayer));
+            moves++;
+
+            int result = checkWinner();
+
+            if (result == 1) {
+                area.setText("X WINS!");
+                endGame();
+            } else if (result == 2) {
+                area.setText("O WINS!");
+                endGame();
+            } else if (moves == 9) {
+                area.setText("DRAW!");
+                endGame();
+            } else {
+                currentPlayer = (currentPlayer == 'X') ? 'O' : 'X';
+                area.setText("Player " + currentPlayer + " turn");
+            }
+        }
+    }
+
+   
+
+    private void endGame() {
+        for (JButton b : blist) {
+            b.setEnabled(false);
+        }
+        replayButton.setEnabled(true);
+    }
+
+   
+
+    public void clearBoard() {
+        for (JButton b : blist) {
+            b.setText(" ");
+            b.setEnabled(true);
+        }
+        currentPlayer = 'X';
+        moves = 0;
+    }
+
+
+
+    private int checkWinner() {
+
+        String[][] board = new String[3][3];
+
+        for (int i = 0; i < 9; i++) {
+            board[i / 3][i % 3] = blist[i].getText();
+        }
+
+        // ROWS + COLUMNS
+        for (int i = 0; i < 3; i++) {
+            if (threeEqual(board[i][0], board[i][1], board[i][2], "X")) return 1;
+            if (threeEqual(board[i][0], board[i][1], board[i][2], "O")) return 2;
+
+            if (threeEqual(board[0][i], board[1][i], board[2][i], "X")) return 1;
+            if (threeEqual(board[0][i], board[1][i], board[2][i], "O")) return 2;
+        }
+
+        // DIAGONALS
+        if (threeEqual(board[0][0], board[1][1], board[2][2], "X")) return 1;
+        if (threeEqual(board[0][0], board[1][1], board[2][2], "O")) return 2;
+
+        if (threeEqual(board[0][2], board[1][1], board[2][0], "X")) return 1;
+        if (threeEqual(board[0][2], board[1][1], board[2][0], "O")) return 2;
+
+        return 0;
+    }
+
+    private boolean threeEqual(String a, String b, String c, String player) {
+        return a.equals(player) && b.equals(player) && c.equals(player);
+    }
+
+    
+
+    public static void main(String[] args) {
+        TicTacToe frame = new TicTacToe();
+        frame.setVisible(true);
+    }
 }
-

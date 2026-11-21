@@ -8,11 +8,15 @@ A classic two-player desktop Tic-Tac-Toe game built with Java Swing and AWT. Pla
 - **Automated Win & Draw Detection:** Evaluates all rows, columns, and diagonals after every move and locks the board once a round ends.
 - **Quick Reset Controls:** Includes a dedicated **Replay** button after each match as well as a top menu bar (`Options` → `Restart` / `Exit`).
 - **Clean Desktop UI:** Built using `JFrame`, `GridLayout`, and `BorderLayout` with a custom dark cell theme.
+- **Automated CI/CD Releases:** Packaged into a runnable `.jar` file via GitHub Actions.
 
 ## Project Structure
 
 ```text
 PJ/
+├── .github/
+│   └── workflows/
+│       └── release.yml
 ├── TictTacToe/
 │   └── src/
 │       └── tic1/
@@ -22,7 +26,7 @@ PJ/
 
 ## Prerequisites
 
-- **Java Development Kit (JDK) 8 or higher** installed and added to your system `PATH`.
+- **Java 17 or higher** (JDK or JRE) installed and added to your system `PATH`.
 
 ## Getting Started
 
